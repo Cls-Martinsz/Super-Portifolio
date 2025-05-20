@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kudu — Mestre dos Multiversos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap');
+        
+        :root {
+            --primary: #00ff9d;
+            --secondary: #00b8ff;
+            --dark: #0a0a14;
+            --darker: #050510;
+            --neon-pink: #ff00aa;
+            --neon-purple: #aa00ff;
+        }
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--dark);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .cyber-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .retro-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+        }
+        
+        .neon-box {
+            box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+        }
+        
+        .neon-pink-text {
+            text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+        }
+        
+        .neon-purple-text {
+            text-shadow: 0 0 5px var(--neon-purple), 0 0 10px var(--neon-purple);
+        }
+        
+        .scanline {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scanline::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 255, 157, 0.05) 50%,
+                transparent 100%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-pink);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--secondary);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            10% { clip: rect(112px, 9999px, 76px, 0); }
+            20% { clip: rect(85px, 9999px, 77px, 0); }
+            30% { clip: rect(27px, 9999px, 97px, 0); }
+            40% { clip: rect(64px, 9999px, 98px, 0); }
+            50% { clip: rect(61px, 9999px, 85px, 0); }
+            60% { clip: rect(99px, 9999px, 114px, 0); }
+            70% { clip: rect(34px, 9999px, 115px, 0); }
+            80% { clip: rect(98px, 9999px, 129px, 0); }
+            90% { clip: rect(43px, 9999px, 96px, 0); }
+            100% { clip: rect(82px, 9999px, 64px, 0); }
+        }
+        
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 119px, 0); }
+            10% { clip: rect(120px, 9999px, 152px, 0); }
+            20% { clip: rect(85px, 9999px, 16px, 0); }
+            30% { clip: rect(52px, 9999px, 57px, 0); }
+            40% { clip: rect(75px, 9999px, 99px, 0); }
+            50% { clip: rect(122px, 9999px, 154px, 0); }
+            60% { clip: rect(119px, 9999px, 94px, 0); }
+            70% { clip: rect(26px, 9999px, 75px, 0); }
+            80% { clip: rect(75px, 9999px, 9px, 0); }
+            90% { clip: rect(21px, 9999px, 102px, 0); }
+            100% { clip: rect(58px, 9999px, 84px, 0); }
+        }
+        
+        .terminal {
+            border: 1px solid var(--primary);
+            position: relative;
+            background-color: rgba(10, 10, 20, 0.8);
+        }
+        
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 255, 157, 0.1) 0%,
+                rgba(0, 184, 255, 0.1) 100%
+            );
+            pointer-events: none;
+        }
+        
+        .terminal-header {
+            background: linear-gradient(
+                90deg,
+                var(--darker) 0%,
+                var(--dark) 50%,
+                var(--darker) 100%
+            );
+            border-bottom: 1px solid var(--primary);
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .terminal-body {
+            padding: 15px;
+            min-height: 200px;
+        }
+        
+        .command-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .prompt {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .command {
+            color: white;
+            flex-grow: 1;
+        }
+        
+        .response {
+            color: var(--secondary);
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--darker);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                var(--primary) 0%,
+                var(--secondary) 100%
+            );
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .hexagon {
+            position: relative;
+            width: 60px;
+            height: 34.64px;
+            background-color: var(--primary);
+            margin: 17.32px 0;
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        .hexagon:before,
+        .hexagon:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+        }
+        
+        .hexagon:before {
+            bottom: 100%;
+            border-bottom: 17.32px solid var(--primary);
+        }
+        
+        .hexagon:after {
+            top: 100%;
+            border-top: 17.32px solid var(--primary);
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--darker);
+            color: #fff;
+            text-align: center;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--primary) transparent transparent transparent;
+        }
+        
+        .hud-element {
+            border: 1px solid var(--primary);
+            background-color: rgba(10, 10, 20, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .hud-element:hover {
+            box-shadow: 0 0 15px var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .pixel-corners {
+            position: relative;
+        }
+        
+        .pixel-corners::before, .pixel-corners::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--primary);
+            pointer-events: none;
+        }
+        
+        .pixel-corners::before {
+            top: -2px;
+            left: -2px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .pixel-corners::after {
+            bottom: -2px;
+            right: -2px;
+            border-left: none;
+            border-top: none;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            5% { opacity: 0.5; }
+            10% { opacity: 0.6; }
+            15% { opacity: 0.85; }
+            25% { opacity: 0.5; }
+            30% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        .flicker {
+            animation: flicker 5s infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .cyber-font {
+                font-size: 1.5rem;
+            }
+            
+            .retro-font {
+                font-size: 0.8rem;
+            }
+            
+            .terminal-body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body class="scanline">
+    <!-- Matrix Background -->
+    <canvas id="matrix" class="matrix-bg"></canvas>
+    
+    <!-- Theme Selector -->
+    <div class="fixed top-4 right-4 z-50">
+        <div class="dropdown relative inline-block">
+            <button class="bg-gray-900 text-white px-4 py-2 rounded border border-purple-500 hover:bg-gray-800 transition flex items-center">
+                <i class="fas fa-palette mr-2"></i> Tema
+                <i class="fas fa-chevron-down ml-2 text-xs"></i>
+            </button>
+            <div class="dropdown-menu absolute hidden mt-2 right-0 w-48 bg-gray-900 rounded-md shadow-lg z-50 border border-purple-500">
+                
+                <button onclick="changeTheme('fantasy')" class="block px-4 py-2 text-white hover:bg-purple-900 w-full text-left flex items-center">
+                    <i class="fas fa-dragon mr-2"></i> Fantasy
+                </button>
+                
+                <button onclick="changeTheme('retro')" class="block px-4 py-2 text-white hover:bg-purple-900 w-full text-left flex items-center">
+                    <i class="fas fa-gamepad mr-2"></i> Retro
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-16 max-w-6xl">
+        <!-- Character Header -->
+        <div class="flex flex-col lg:flex-row items-center justify-between mb-16">
+            <div class="text-center lg:text-left mb-8 lg:mb-0">
+                <h1 class="cyber-font text-4xl md:text-5xl lg:text-6xl mb-4 neon-text glitch" data-text="Carlin">
+                    Carlin
+                </h1>
+                <h2 class="retro-font text-xl md:text-2xl neon-pink-text">
+                    <span class="typing-effect"></span>
+                </h2>
+            </div>
+            
+            <div class="relative floating">
+                <div class="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full border-4 border-purple-500 overflow-hidden neon-box">
+                    <img src="WhatsApp Image 2025-05-20 at 16.17.51.jpeg" alt="Avatar" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-4 -right-4 bg-gray-900 p-3 rounded-full border-2 border-green-500">
+                    <i class="fas fa-gamepad text-2xl text-green-500"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Character Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            <!-- Class -->
+            <div class="hud-element p-6 rounded-lg">
+                <h3 class="text-gray-400 mb-2 flex items-center">
+                    <i class="fas fa-hat-wizard mr-2 text-purple-500"></i> Classe
+                </h3>
+                <p class="text-xl font-bold text-green-400">Hacker Arcano</p>
+                <div class="progress-bar mt-3">
+                    <div class="progress-fill" style="width: 85%"></div>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Nível 17</p>
+            </div>
+            
+            <!-- Race -->
+            <div class="hud-element p-6 rounded-lg">
+                <h3 class="text-gray-400 mb-2 flex items-center">
+                    <i class="fas fa-dna mr-2 text-blue-500"></i> Raça
+                </h3>
+                <p class="text-xl font-bold text-blue-400">Humano Modificado</p>
+                <div class="progress-bar mt-3">
+                    <div class="progress-fill" style="width: 70%"></div>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Cybernetic Enhancements: 64%</p>
+            </div>
+            
+            <!-- Alignment -->
+            <div class="hud-element p-6 rounded-lg">
+                <h3 class="text-gray-400 mb-2 flex items-center">
+                    <i class="fas fa-balance-scale mr-2 text-yellow-500"></i> Alinhamento
+                </h3>
+                <p class="text-xl font-bold text-yellow-400">Não-Caótico Neutro</p>
+                <div class="progress-bar mt-3">
+                    <div class="progress-fill" style="width: 50%"></div>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Tendência: Neutro</p>
+            </div>
+            
+            <!-- HP/MP -->
+            <div class="hud-element p-6 rounded-lg">
+                <h3 class="text-gray-400 mb-2 flex items-center">
+                    <i class="fas fa-heartbeat mr-2 text-red-500"></i> Status
+                </h3>
+                <div class="flex justify-between mb-1">
+                    <span class="text-red-400">HP</span>
+                    <span class="text-xs text-gray-400">327/450</span>
+                </div>
+                <div class="progress-bar mb-3">
+                    <div class="progress-fill" style="width: 72%"></div>
+                </div>
+                <div class="flex justify-between mb-1">
+                    <span class="text-blue-400">MP</span>
+                    <span class="text-xs text-gray-400">210/300</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Character Sheet -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="text-green-400">character_sheet.exe</span>
+                        <div class="flex space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="command-line">
+                            <span class="prompt">></span>
+                            <span class="command">load character_data --id=kudu --full</span>
+                        </div>
+                        <div class="response">
+                            <p>Loading character data...</p>
+                            <p>System: <span class="text-green-400">OK</span></p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <!-- Attributes -->
+                            <div>
+                                <h3 class="text-lg font-bold text-purple-400 mb-3 border-b border-purple-900 pb-1">Atributos</h3>
+                                <ul class="space-y-2">
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">FOR</span>
+                                        <span class="text-green-400">12</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">DES</span>
+                                        <span class="text-green-400">16</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">CON</span>
+                                        <span class="text-green-400">14</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">INT</span>
+                                        <span class="text-green-400">18</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">SAB</span>
+                                        <span class="text-green-400">15</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">CAR</span>
+                                        <span class="text-green-400">13</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Skills -->
+                            <div>
+                                <h3 class="text-lg font-bold text-blue-400 mb-3 border-b border-blue-900 pb-1">Habilidades</h3>
+                                <ul class="space-y-2">
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Hacking</span>
+                                        <span class="text-green-400">★★★★☆</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Programação</span>
+                                        <span class="text-green-400">★★★☆☆</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Magia Arcana</span>
+                                        <span class="text-green-400">★★★☆☆</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Lore Geek</span>
+                                        <span class="text-green-400">★★★★★</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Jogatina</span>
+                                        <span class="text-green-400">★★★★★</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span class="text-gray-400">Criatividade</span>
+                                        <span class="text-green-400">★★★☆☆</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Fandoms -->
+                        <div class="mt-6">
+                            <h3 class="text-lg font-bold text-pink-400 mb-3 border-b border-pink-900 pb-1">Fandoms</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-pink-400 border border-pink-500">Star Wars</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-blue-400 border border-blue-500">Soulslike</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-green-400 border border-green-500">Cyberpunk</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-yellow-400 border border-yellow-500">D&D</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-indigo-400 border border-indigo-500">Matrix</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Inventory -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="text-yellow-400">inventory_system.exe</span>
+                        <div class="flex space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="command-line">
+                            <span class="prompt">></span>
+                            <span class="command">open inventory --category=all</span>
+                        </div>
+                        <div class="response">
+                            <p>Accessing interdimensional storage...</p>
+                            <p>System: <span class="text-green-400">Inventory loaded</span></p>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h3 class="text-lg font-bold text-yellow-400 mb-3 border-b border-yellow-900 pb-1">Inventário</h3>
+                            
+                            <!-- Tabs -->
+                            <div class="flex border-b border-gray-700 mb-4">
+                                <button class="tab-button active px-4 py-2 text-yellow-400 border-b-2 border-yellow-400" data-tab="games">Jogos</button>
+                                <button class="tab-button px-4 py-2 text-gray-400" data-tab="books">Livros</button>
+                                <button class="tab-button px-4 py-2 text-gray-400" data-tab="movies">Filmes</button>
+                                <button class="tab-button px-4 py-2 text-gray-400" data-tab="gear">Equipamento dos sonhos</button>
+                            </div>
+                            
+                            <!-- Tab Content -->
+                            <div class="tab-content active" id="games">
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-green-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-gamepad text-2xl text-green-400"></i>
+                                            <img src="download (3).jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Lego Star Wars: The Skywalker Saga</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-blue-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-gamepad text-2xl text-blue-400"></i>
+                                            <img src="maxresdefault.jpg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">LEGO® Indiana Jones™ 2: The Adventure Continues</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-red-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-gamepad text-2xl text-red-400"></i>
+                                            <img src="download (5).jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Minecraft</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-purple-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-gamepad text-2xl text-purple-400"></i>
+                                            <img src="download (6).jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Too Human</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-indigo-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-gamepad text-2xl text-indigo-400"></i>
+                                            <img src="download (7).jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Crackdown 2</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-pink-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-gamepad text-2xl text-pink-400"></i>
+                                            <img src="download (8).jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Blood Strike (mobile)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-content hidden" id="books">
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-purple-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-book text-2xl text-purple-400"></i>
+                                            <img src="download13.jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Player's Handbook - D&D 5e</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-indigo-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-book text-2xl text-indigo-400"></i>
+                                            <img src="download14.jpeg" alt="" srcset="">
+                                        </div>
+                                        <span class="tooltip-text">Ordem Paranormal - RPG V1.2 </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-content hidden" id="movies">
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-green-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-film text-2xl text-green-400"></i>
+                                            <img src="i447716.jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Saga Star Wars</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-blue-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-film text-2xl text-blue-400"></i>
+                                            <img src="download9.jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Jurrasic World</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-red-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-film text-2xl text-red-400"></i>
+                                            <img src="download10.jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Senhor dos Anéis</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-purple-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-film text-2xl text-purple-400"></i>
+                                            <img src="jornalcomunicacao.ufpr.br-homem-aranha-atraves-do-aranhaverso-uma-sequencia-espetacular-spiderverse-poster.webp" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Homem-Aranha no Aranhaverso</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-indigo-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-film text-2xl text-indigo-400"></i>
+                                            <img src="download11.jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Saga Harry Potter</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-pink-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-film text-2xl text-pink-400"></i>
+                                            <img src="download12.jpeg" alt="">
+                                        </div>
+                                        <span class="tooltip-text">Saga Vingadores</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-content hidden" id="gear">
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-green-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-laptop text-2xl text-green-400"></i>
+                                        </div>
+                                        <span class="tooltip-text">PC Gamer (RTX 3080, Ryzen 9)</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-blue-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-keyboard text-2xl text-blue-400"></i>
+                                        </div>
+                                        <span class="tooltip-text">Teclado Mecânico Custom</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-red-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-headphones text-2xl text-red-400"></i>
+                                        </div>
+                                        <span class="tooltip-text">Fones Gamer Pro</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-purple-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-gamepad text-2xl text-purple-400"></i>
+                                        </div>
+                                        <span class="tooltip-text">Controle Elite</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-indigo-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-vr-cardboard text-2xl text-indigo-400"></i>
+                                        </div>
+                                        <span class="tooltip-text">Oculus Quest 2</span>
+                                    </div>
+                                    <div class="tooltip">
+                                        <div class="bg-gray-800 p-3 rounded border border-pink-500 hover:border-yellow-400 transition">
+                                            <i class="fas fa-dice-d20 text-2xl text-pink-400"></i>
+                                        </div>
+                                        <span class="tooltip-text">Dados RPG Metal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Buffs & Debuffs -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="text-blue-400">status_effects.exe</span>
+                        <div class="flex space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="command-line">
+                            <span class="prompt">></span>
+                            <span class="command">scan buffs_debuffs --player=kudu</span>
+                        </div>
+                        <div class="response">
+                            <p>Analyzing character modifiers...</p>
+                            <p>System: <span class="text-green-400">Scan complete</span></p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <!-- Buffs -->
+                            <div>
+                                <h3 class="text-lg font-bold text-green-400 mb-3 border-b border-green-900 pb-1">Buffs</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <div class="bg-green-900 p-2 rounded mr-3">
+                                            <i class="fas fa-bolt text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-green-300">Criatividade +5</h4>
+                                            <p class="text-xs text-gray-400">Ideias fluem como um rio caudaloso</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-green-900 p-2 rounded mr-3">
+                                            <i class="fas fa-brain text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-green-300">Lore Master</h4>
+                                            <p class="text-xs text-gray-400">+10 em conhecimento de universos ficcionais</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-green-900 p-2 rounded mr-3">
+                                            <i class="fas fa-code text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-green-300">Debugging Intuitivo</h4>
+                                            <p class="text-xs text-gray-400">Encontra bugs 25% mais rápido</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Debuffs -->
+                            <div>
+                                <h3 class="text-lg font-bold text-red-400 mb-3 border-b border-red-900 pb-1">Debuffs</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <div class="bg-red-900 p-2 rounded mr-3">
+                                            <i class="fas fa-moon text-red-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-red-300">Vampirismo Noturno</h4>
+                                            <p class="text-xs text-gray-400">Produtividade -3 durante o dia</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-red-900 p-2 rounded mr-3">
+                                            <i class="fas fa-coffee text-red-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-red-300">Dependência de Cafeína</h4>
+                                            <p class="text-xs text-gray-400">-2 em todas as rolagens sem café</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-red-900 p-2 rounded mr-3">
+                                            <i class="fas fa-gamepad text-red-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-red-300">Distração Lúdica</h4>
+                                            <p class="text-xs text-gray-400">Testes de Vontade contra novos jogos</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="space-y-8">
+                <!-- Current Quests -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="text-purple-400">quest_log.exe</span>
+                        <div class="flex space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="command-line">
+                            <span class="prompt">></span>
+                            <span class="command">load active_quests --player=kudu</span>
+                        </div>
+                        <div class="response">
+                            <p>Accessing quest database...</p>
+                            <p>System: <span class="text-green-400">3 active quests found</span></p>
+                        </div>
+                        
+                        <div class="mt-6 space-y-6">
+                            <!-- Quest 1 -->
+                            <div class="quest">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-bold text-purple-300">Projeto: Nexus</h3>
+                                    <span class="text-xs bg-purple-900 text-purple-300 px-2 py-1 rounded">Em Progresso</span>
+                                </div>
+                                <p class="text-sm text-gray-300 mb-3">Desenvolver um sistema de IA para gerenciamento de mundos ficcionais.</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>65% Completo</span>
+                                    <span>XP: 1500/2300</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Quest 2 -->
+                            <div class="quest">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-bold text-blue-300">Missão: Dark Souls IV</h3>
+                                    <span class="text-xs bg-blue-900 text-blue-300 px-2 py-1 rounded">Novo!</span>
+                                </div>
+                                <p class="text-sm text-gray-300 mb-3">Completar o jogo no modo New Game+ sem morrer.</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 12%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>12% Completo</span>
+                                    <span>XP: 300/2500</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Quest 3 -->
+                            <div class="quest">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-bold text-green-300">Campanha: Shadow of the DM</h3>
+                                    <span class="text-xs bg-green-900 text-green-300 px-2 py-1 rounded">Ativo</span>
+                                </div>
+                                <p class="text-sm text-gray-300 mb-3">Mestrar uma campanha de RPG cyberpunk para o grupo.</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>40% Completo</span>
+                                    <span>XP: 800/2000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Theme Song -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="text-pink-400">audio_player.exe</span>
+                        <div class="flex space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="command-line">
+                            <span class="prompt">></span>
+                            <span class="command">play theme_song --id=kudu_main</span>
+                        </div>
+                        <div class="response">
+                            <p>Accessing audio archives...</p>
+                            <p>System: <span class="text-green-400">Now playing: GEEKverso</span></p>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <iframe 
+                                style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5XDfKoeEsMK6c7OV79u8eZ?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+                            </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="text-orange-400">social_links.exe</span>
+                        <div class="flex space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="command-line">
+                            <span class="prompt">></span>
+                            <span class="command">open social_interface --all</span>
+                        </div>
+                        <div class="response">
+                            <p>Initializing communication protocols...</p>
+                            <p>System: <span class="text-green-400">Channels open</span></p>
+                        </div>
+                        
+                        <a href="https://github.com/Cls-Martinsz">
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <button class="bg-gray-800 hover:bg-blue-900 transition rounded-lg p-4 flex flex-col items-center justify-center border border-blue-500">
+                                <i class="fab fa-github text-3xl text-blue-400 mb-2"></i>
+                                <span class="text-sm text-blue-300">GitHub</span>
+                            </button></a>
+                            <a href="https://www.instagram.com/cls.martinsz?igsh=MWYyaTA2MGxvdWdsMA==">
+                            <button class="bg-gray-800 hover:bg-pink-900 transition rounded-lg p-4 flex flex-col items-center justify-center border border-pink-500">
+                                <i class="fab fa-instagram text-3xl text-pink-400 mb-2"></i>
+                                <span class="text-sm text-pink-300">Instagram</span>
+                            </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-16 text-center text-gray-500 text-sm">
+            <p class="mb-2">© 2025 Kudu - Mestre dos Multiversos. Todos os direitos reservados.</p>
+            <p class="text-xs">Sistema operando em: <span class="text-green-400">v2.5.8</span> | Última atualização: <span class="text-blue-400">2025-05-15</span></p>
+        </footer>
+    </div>
+    
+    <script>
+        // Matrix Background
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const symbols = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+        
+        const alphabet = katakana + latin + nums + symbols;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(10, 10, 20, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(draw, 30);
+        
+        // Responsive canvas
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.add('hidden'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+        
+        // Dropdown functionality
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const button = dropdown.querySelector('button');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+            
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Typing effect
+        const typingText = "Mestre dos Multiversos";
+        const typingElement = document.querySelector('.typing-effect');
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < typingText.length) {
+                typingElement.innerHTML += typingText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        setTimeout(typeWriter, 1000);
+        
+        // Theme changer
+        function changeTheme(theme) {
+            const root = document.documentElement;
+            
+            switch(theme) {
+                    
+                case 'fantasy':
+                    root.style.setProperty('--primary', '#f9d423');
+                    root.style.setProperty('--secondary', '#e65c00');
+                    root.style.setProperty('--dark', '#1a1a2e');
+                    root.style.setProperty('--darker', '#16213e');
+                    root.style.setProperty('--neon-pink', '#ff6b6b');
+                    root.style.setProperty('--neon-purple', '#9c27b0');
+                    document.body.className = '';
+                    break;
+                    
+ 
+                case 'retro':
+                    root.style.setProperty('--primary', '#ff0000');
+                    root.style.setProperty('--secondary', '#ffff00');
+                    root.style.setProperty('--dark', '#000000');
+                    root.style.setProperty('--darker', '#111111');
+                    root.style.setProperty('--neon-pink', '#ff00ff');
+                    root.style.setProperty('--neon-purple', '#00ffff');
+                    document.body.className = '';
+                    break;
+            }
+            
+            // Update matrix color
+            ctx.fillStyle = theme === 'retro' ? '#F00' : '#0F0';
+        }
+        
+        // Glitch effect on hover
+        const glitchElements = document.querySelectorAll('.glitch');
+        
+        glitchElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.classList.add('glitch-active');
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.classList.remove('glitch-active');
+            });
+        });
+        
+        // Floating effect for avatar
+        const avatar = document.querySelector('.floating');
+        
+        avatar.addEventListener('mouseenter', () => {
+            avatar.style.animation = 'none';
+            void avatar.offsetWidth; // Trigger reflow
+            avatar.style.animation = 'float 3s ease-in-out infinite';
+        });
+    </script>
+</body>
+</html>
